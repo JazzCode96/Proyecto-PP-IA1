@@ -1,0 +1,57 @@
+PRACTICA DEL PRIMER PARCIAL 
+LIC. PATRICIA RODRIGUEZ BILBAO 
+
+1. OBJETIVO 
+  El objetivo de la práctica es el de incentivar al estudiante a realizar la implementación 
+  de las metodologías de búsqueda estudiadas en los capítulos 3, 4 y 5, a través del 
+  desarrollo de un proyecto de software que aplique Técnicas de IA para la resolución de 
+  problemas. 
+2. GRUPOS 
+  Los grupos podrán conformarse con no menos de 2 y no más de 3 integrantes, los cuales 
+  hasta la entrega del informe final podrán cambiar, eliminarse o ser sustituidos, se 
+  tomará en cuenta la lista asociada al informe impreso. 
+3. PLANTEAMIENTOS 
+  a) Se encuentra un hombre perdido en el Amazonas, a lo lejos escucha el sonido de un 
+     río y desea llegar al mar 
+  b) Se encuentra un ratón hambriento al inicio de un laberinto, siente el olor del queso
+     y quiere comerlo
+  c) Problema de las ocho fichas 
+  d) Juego de damas 
+  e) Pintado de un mapa de entre 16 a 30 regiones con regiones adyacentes pintadas con 
+     diferentes colores, número de regiones y número de colores deben ser parámetros 
+     ingresados. 
+  f) Juego 21, consiste en obtener con dos dados el par 2 y 1 
+  g) Se quiere encontrar el número telefónico de Samantha Wilder que vive en la ciudad 
+     de Toronto, Canada, se tienen guias por países ordenadas en un estante 
+  h) Se quiere buscar en Google el primer documento formato pdf referido a 
+     “Computación cuántica” 
+  i) Problema del viajero 
+  j) Juego de tres en raya 
+4. CONTENIDO 
+  Habiendo elegido dos planteamientos de los anteriores, el informe impreso debe 
+  contemplar los siguientes puntos: 
+  I. Introducción 
+  II. Objetivos 
+  III. Marco Teórico (Pequeña referencia a las metodologías seleccionadas 
+       para su implementación, no más de una plana por metodología) 
+  IV. Ingeniería que incluya los siguientes puntos 
+      - Descripción, ampliación y/o abstracción del problema 
+      - Formulación de la Meta 
+      - Formulación del Problema: REAS, P->A, Conjunto Problema 
+      - Referencia de las tecnologías a utilizar (Lenguaje, Librerías, otros.) 
+      - Prototipo, mostrando resultados de resolución de problema 
+        (screenshots de la aplicación desarrollada)
+      - Evaluación comparativa de las rutas solución encontradas a través 
+        de los parámetros de evaluación de búsquedas 
+  V. Conclusiones
+  VI. Bibliografía 
+  Informe impreso debe incluir todos los puntos anteriormente detallados además de la 
+  copia digital de las líneas de código implementadas para la resolución de los problemas 
+  elegidos. 
+5. EVALUACION 
+  Habiendo cumplido con los prerrequisitos especificados en los puntos 3 y 4 de manera 
+  coherente y completa, el proyecto será evaluado bajo los siguientes parámetros
+
+Informe   10 pts 
+Prototipo 20 pts 
+Total     30 pts 
