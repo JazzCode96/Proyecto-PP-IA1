@@ -10,7 +10,7 @@ public class Awtron {
         char table[][] = {
             {'x',0,0},
             {0,'o',0},
-            {'o',0,0}
+            {'o',0,'x'}
         };
 
         Awtron it = new Awtron('x');
