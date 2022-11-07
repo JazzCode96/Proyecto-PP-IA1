@@ -6,6 +6,25 @@ public class Awtron {
 
     private char sig;
 
+    public static void main(String[] args) {
+        char table[][] = {
+            {'x',0,0},
+            {0,'o',0},
+            {'o',0,0}
+        };
+
+        Awtron it = new Awtron('x');
+
+        it.jugada(table);
+
+        for(int i = 0; i<3; i++) {
+            for(int j=0; j<3; j++) {
+                System.out.print(((char)table[i][j] == 'o' || (char)table[i][j] == 'x') ? table[i][j] : '-');
+            }
+            System.out.println();
+        }
+    }
+
     public Awtron(char c) {
         this.sig = c;
     }
@@ -14,14 +33,13 @@ public class Awtron {
         ArrayList<int[]> jugadasA = new ArrayList<int[]>();
         ArrayList<int[]> jugadasC = new ArrayList<int[]>();
         jugadasA = getJugadas(table);
-        int op = (int)Math.random() * jugadasA.size();
+        int op = (int)(Math.random() * jugadasA.size());
         
         int alfa, beta;
         int value = INF_P;
         int[] sgtJug;
 
         //rama inicial
-
         int[] jI = jugadasA.get(op);
         table[jI[0]][jI[1]] = sig;
 
@@ -41,7 +59,7 @@ public class Awtron {
             if(i != op ) {
                 table[jug[0]][jug[1]] = this.sig;
                 jugadasC = getJugadas(table);
-                int[] jE = jugadasC.get((int)Math.random() * jugadasC.size());
+                int[] jE = jugadasC.get((int)(Math.random() * jugadasC.size()));
                 table[jE[0]][jE[1]] = this.sig == 'x' ? 'o' : 'x';
                 beta = fun_val(table);
                 if(beta > alfa) {
@@ -92,9 +110,6 @@ public class Awtron {
         for(int i=0; i<3; i++) {
             for(int j=0; j<3; j++ ) {
                 if(table[i][j] == c) r++;
-                else {
-                    if(table[i][j] != 0) r--;
-                }
             }
             if(r == 3) return true;
             r = 0;
@@ -103,9 +118,6 @@ public class Awtron {
         for(int i=0; i<3; i++) {
             for(int j=0; j<3; j++ ) {
                 if(table[j][i] == c) r++;
-                else {
-                    if(table[j][i] != 0) r--;
-                }
             }
             if(r == 3) return true;
             r = 0;
@@ -113,9 +125,6 @@ public class Awtron {
 
         for(int i=0; i<3; i++) {
             if(table[i][i] == c) r++;
-            else {
-                if(table[i][i] != 0) r--;
-            }
         }
         if(r == 3) return true;
         r = 0;
