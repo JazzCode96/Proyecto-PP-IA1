@@ -6,6 +6,24 @@ public class Awtron {
 
     private char signo;
 
+    public static void main(String[] args) {
+        char table[][] = {
+                {'o', 0, 'o'},
+                {0,'x',0},
+                { 0, 0, 0}
+        };
+
+        Awtron bot = new Awtron('x');
+        bot.jugar(table);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(((char) table[i][j] == 'o' || (char) table[i][j] == 'x') ? table[i][j] : '-');
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
     public Awtron(char c) {
         this.signo = c;
     }
@@ -22,7 +40,7 @@ public class Awtron {
         ArrayList<int[]> jugadasContrincante = new ArrayList<int[]>();
         jugadasAgente = getJugadasPosibles(table);
         int max = INF_N, min = INF_P;
-        int[] sgtJugada = jugadasAgente.get(0);
+        int[] sgtJugada = null;
         for (int i = 0; i < jugadasAgente.size(); i++) {
             int[] jugada = jugadasAgente.get(i);
             table[jugada[0]][jugada[1]] = this.signo;
@@ -90,6 +108,10 @@ public class Awtron {
                 filas += table[i][j];
                 columnas += table[j][i];
             }
+            if (filas == total || columnas == total)
+                return true;
+            filas = 0;
+            columnas = 0;
         }
 
         for (int i = 0; i < 3; i++) {

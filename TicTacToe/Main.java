@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +13,7 @@ public class Main {
         char table[][] = new char[3][3];
         Awtron j1 = new Awtron('x');
         boolean turno = true;
-        while (!fin(table) && !gano(table, turno ? 'o' : 'x')) {
+        while ((!gano(table,'x') && !gano(table, 'o'))) {
             if (!turno) {
                 System.out.println("Awtron >:)");
                 j1.jugar(table);
@@ -54,12 +55,17 @@ public class Main {
                 filas += table[i][j];
                 columnas += table[j][i];
             }
+            if (filas == total || columnas == total)
+                return true;
+            filas = 0;
+            columnas = 0;
         }
+        
 
         for (int i = 0; i < 3; i++) {
             dig1 += table[i][i];
             dig2 += table[i][3 - i - 1];
         }
-        return filas == total || columnas == total || dig1 == total || dig2 == total;
+        return dig1 == total || dig2 == total;
     }
 }
