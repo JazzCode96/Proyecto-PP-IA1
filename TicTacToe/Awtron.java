@@ -11,7 +11,7 @@ public class Awtron {
     }
 
     public void jugar(char table[][]) {
-        //ejecutar MINIMAX
+        // ejecutar MINIMAX
         int[] jugada = miniMax(table);
         // jugar
         table[jugada[0]][jugada[1]] = this.signo;

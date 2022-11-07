@@ -1,9 +1,6 @@
 import java.util.Scanner;
 
 public class Main {
-
-    public static boolean gano = false;
-
     public static void main(String[] args) {
         Scanner leer = new Scanner(System.in);
         int[][] posiciones = {
@@ -15,7 +12,7 @@ public class Main {
         char table[][] = new char[3][3];
         Awtron j1 = new Awtron('x');
         boolean turno = true;
-        while (!fin(table) && !gano) {
+        while (!fin(table) && !gano(table, turno ? 'o' : 'x')) {
             if (!turno) {
                 System.out.println("Awtron >:)");
                 j1.jugar(table);
@@ -39,11 +36,30 @@ public class Main {
     }
 
     static boolean fin(char table[][]) {
-        for(int i=0; i<3; i++) {
-            for(int j=0; j<3; j++) {
-                if(table[i][j] == 0) return false;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (table[i][j] == 0)
+                    return false;
             }
         }
         return true;
+    }
+    
+    static boolean gano(char table[][], char c) {
+        int total = 3 * c;
+        int filas, columnas, dig1, dig2;
+        filas = columnas = dig1 = dig2 = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                filas += table[i][j];
+                columnas += table[j][i];
+            }
+        }
+
+        for (int i = 0; i < 3; i++) {
+            dig1 += table[i][i];
+            dig2 += table[i][3 - i - 1];
+        }
+        return filas == total || columnas == total || dig1 == total || dig2 == total;
     }
 }
