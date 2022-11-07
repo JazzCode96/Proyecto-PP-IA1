@@ -4,69 +4,54 @@ public class Awtron {
     final int INF_P = Integer.MAX_VALUE;
     final int INF_N = Integer.MIN_VALUE;
 
-    private char sig;
-
-    public static void main(String[] args) {
-        char table[][] = {
-                { 'x', 0, 0 },
-                { 0, 'o', 0 },
-                { 'o', 0, 'x' }
-        };
-
-        Awtron it = new Awtron('x');
-
-        it.jugada(table);
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(((char) table[i][j] == 'o' || (char) table[i][j] == 'x') ? table[i][j] : '-');
-            }
-            System.out.println();
-        }
-    }
+    private char signo;
 
     public Awtron(char c) {
-        this.sig = c;
+        this.signo = c;
     }
 
-    public void jugada(char table[][]) {
-        ArrayList<int[]> jugadasA = new ArrayList<int[]>();
-        ArrayList<int[]> jugadasC = new ArrayList<int[]>();
-        jugadasA = getJugadas(table);
-        int valueA = INF_N, valueC = INF_P, jugS = 0;
-        int[] sgtJug;
-        for (int i = 0; i < jugadasA.size(); i++) {
-            int[] jug = jugadasA.get(i);
-            table[jug[0]][jug[1]] = this.sig;
-            jugadasC = getJugadas(table);
-            for (int[] jE : jugadasC) {
-                table[jE[0]][jE[1]] = this.sig == 'x' ? 'o' : 'x';
-                valueC = Math.min(fun_val(table), valueC);
+    public void jugar(char table[][]) {
+        //ejecutar MINIMAX
+        int[] jugada = miniMax(table);
+        // jugar
+        table[jugada[0]][jugada[1]] = this.signo;
+    }
+
+    public int[] miniMax(char table[][]) {
+        ArrayList<int[]> jugadasAgente = new ArrayList<int[]>();
+        ArrayList<int[]> jugadasContrincante = new ArrayList<int[]>();
+        jugadasAgente = getJugadasPosibles(table);
+        int max = INF_N, min = INF_P;
+        int[] sgtJugada = jugadasAgente.get(0);
+        for (int i = 0; i < jugadasAgente.size(); i++) {
+            int[] jugada = jugadasAgente.get(i);
+            table[jugada[0]][jugada[1]] = this.signo;
+            jugadasContrincante = getJugadasPosibles(table);
+            for (int[] jE : jugadasContrincante) {
+                table[jE[0]][jE[1]] = this.signo == 'x' ? 'o' : 'x';
+                min = Math.min(funcionEvaluacion(table), min);
                 table[jE[0]][jE[1]] = 0;
             }
 
-            if (valueC > valueA) {
-                jugS = i;
-                valueA = valueC;
+            if (min > max) {
+                sgtJugada = jugadasAgente.get(i);
+                max = min;
             }
-            valueC = INF_P;
-            table[jug[0]][jug[1]] = 0;
+            min = INF_P;
+            table[jugada[0]][jugada[1]] = 0;
         }
-        sgtJug = jugadasA.get(jugS);
-
-        // jugar
-        table[sgtJug[0]][sgtJug[1]] = this.sig;
+        return sgtJugada;
     }
 
-    private int fun_val(char table[][]) {
-        return cantJugGan(table, this.sig) - cantJugGan(table, this.sig == 'x' ? 'o' : 'x');
+    private int funcionEvaluacion(char table[][]) {
+        return cantJugGanadoras(table, this.signo) - cantJugGanadoras(table, this.signo == 'x' ? 'o' : 'x');
     }
 
     private boolean valid(char table[][], int i, int j, char c) {
         return table[i][j] == 0 || table[i][j] == c;
     }
 
-    private int cantJugGan(char table[][], char c) {
+    private int cantJugGanadoras(char table[][], char c) {
         int cant = 0;
         // filas
         if (valid(table, 0, 0, c) && valid(table, 0, 1, c) && valid(table, 0, 2, c))
@@ -90,13 +75,13 @@ public class Awtron {
         if (valid(table, 0, 2, c) && valid(table, 1, 2, c) && valid(table, 2, 2, c))
             cant++;
 
-        if (winner(table, c)) {
-            return c == this.sig ? INF_P : INF_N;
+        if (gano(table, c)) {
+            return c == this.signo ? INF_P : INF_N;
         }
         return cant;
     }
 
-    private boolean winner(char table[][], char c) {
+    private boolean gano(char table[][], char c) {
         int total = 3 * c;
         int filas, columnas, dig1, dig2;
         filas = columnas = dig1 = dig2 = 0;
@@ -114,7 +99,7 @@ public class Awtron {
         return filas == total || columnas == total || dig1 == total || dig2 == total;
     }
 
-    private ArrayList<int[]> getJugadas(char table[][]) {
+    private ArrayList<int[]> getJugadasPosibles(char table[][]) {
         ArrayList<int[]> res = new ArrayList<int[]>();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

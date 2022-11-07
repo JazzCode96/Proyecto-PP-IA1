@@ -15,10 +15,10 @@ public class Main {
         char table[][] = new char[3][3];
         Awtron j1 = new Awtron('x');
         boolean turno = true;
-        while(!fin(table) && !gano) {
+        while (!fin(table) && !gano) {
             if (!turno) {
                 System.out.println("Awtron >:)");
-                j1.jugada(table);
+                j1.jugar(table);
             } else {
                 System.out.print("Jugada [1..9]: ");
                 pos_c = leer.nextInt();
@@ -26,15 +26,16 @@ public class Main {
                 int[] p = posiciones[pos_c];
                 table[p[0]][p[1]] = 'o';
             }
-            for(int i = 0; i<3; i++) {
-                for(int j=0; j<3; j++) {
-                    System.out.print(((char)table[i][j] == 'o' || (char)table[i][j] == 'x') ? table[i][j] : '-');
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    System.out.print(((char) table[i][j] == 'o' || (char) table[i][j] == 'x') ? table[i][j] : '-');
                 }
                 System.out.println();
             }
             System.out.println();
-            turno = !turno;            
+            turno = !turno;
         }
+        leer.close();
     }
 
     static boolean fin(char table[][]) {
