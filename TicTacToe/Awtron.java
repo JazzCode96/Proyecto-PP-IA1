@@ -6,33 +6,19 @@ public class Awtron {
 
     private char signo;
 
-    public static void main(String[] args) {
-        char table[][] = {
-                {'o', 0, 'o'},
-                {0,'x',0},
-                { 0, 0, 0}
-        };
-
-        Awtron bot = new Awtron('x');
-        bot.jugar(table);
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(((char) table[i][j] == 'o' || (char) table[i][j] == 'x') ? table[i][j] : '-');
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
     public Awtron(char c) {
         this.signo = c;
+    }
+
+    public char getSigno() {
+        return this.signo;
     }
 
     public void jugar(char table[][]) {
         // ejecutar MINIMAX
         int[] jugada = miniMax(table);
         // jugar
-        table[jugada[0]][jugada[1]] = this.signo;
+        if(jugada != null) table[jugada[0]][jugada[1]] = this.signo;
     }
 
     public int[] miniMax(char table[][]) {
