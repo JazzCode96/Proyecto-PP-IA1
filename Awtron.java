@@ -1,32 +1,10 @@
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
-//import javafx.util.*;
+
 public class Awtron {
     final int INF_P = Integer.MAX_VALUE;
     final int INF_N = Integer.MIN_VALUE;
 
     private char sig;
-
-    public static void main(String[] args) {
-        char table[][] = {
-            {'o', 0, 'x'},
-            {0, 'x', 0},
-            { 'o',    0,   'o'}
-        };
-
-        Awtron it = new Awtron('x');
-
-        it.jugada(table);
-        
-        
-
-        for(int i = 0; i<3; i++) {
-            for(int j=0; j<3; j++) {
-                System.out.print(((char)table[i][j] == 'o' || (char)table[i][j] == 'x') ? table[i][j] : '-');
-            }
-            System.out.println();
-        }
-    }
 
     public Awtron(char c) {
         this.sig = c;
@@ -80,7 +58,6 @@ public class Awtron {
     }
 
     private int fun_val(char table[][]) {
-        //System.out.println(cantJugGan(table, this.c) + " " + cantJugGan(table, this.c == 'x' ? 'o' : 'x'));
         return cantJugGan(table, this.sig) - cantJugGan(table, this.sig == 'x' ? 'o' : 'x');
     }
 
@@ -104,11 +81,13 @@ public class Awtron {
         if(valid(table, 0, 1, c) && valid(table, 1, 1, c) && valid(table,2,1,c)) cant++;
         if(valid(table, 0, 2, c) && valid(table, 1, 2, c) && valid(table,2,2,c)) cant++;
 
-        if(winner(table, c)) return c == this.sig ? INF_P : INF_N;
+        if(winner(table, c)) {
+            return c == this.sig ? INF_P : INF_N;
+        }
         return cant;
     }
 
-    public boolean winner(char table[][], char c) {
+    private boolean winner(char table[][], char c) {
         int r = 0;
         for(int i=0; i<3; i++) {
             for(int j=0; j<3; j++ ) {
@@ -146,24 +125,16 @@ public class Awtron {
         return r == 3;
     }
 
-    public ArrayList<int[]> getJugadas(char table[][]) {
+    private ArrayList<int[]> getJugadas(char table[][]) {
         ArrayList<int[]> res = new ArrayList<int[]>();
         for(int i=0; i<3; i++) {
             for(int j=0; j<3; j++) {
                 if(table[i][j] == 0) {
                     int[] r = {i, j};
-                    //System.out.println(i + ", " + j);
                     res.add(r);           
                 }
             }
         }
-        //System.out.println();
         return res;
     }
 }
-/*
- REAS
-
- R          E            A                  S
-
- */
