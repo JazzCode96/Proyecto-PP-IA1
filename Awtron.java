@@ -8,18 +8,18 @@ public class Awtron {
 
     public static void main(String[] args) {
         char table[][] = {
-            {'x',0,0},
-            {0,'o',0},
-            {'o',0,'x'}
+                { 'x', 0, 0 },
+                { 0, 'o', 0 },
+                { 'o', 0, 'x' }
         };
 
         Awtron it = new Awtron('x');
 
         it.jugada(table);
 
-        for(int i = 0; i<3; i++) {
-            for(int j=0; j<3; j++) {
-                System.out.print(((char)table[i][j] == 'o' || (char)table[i][j] == 'x') ? table[i][j] : '-');
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(((char) table[i][j] == 'o' || (char) table[i][j] == 'x') ? table[i][j] : '-');
             }
             System.out.println();
         }
@@ -33,45 +33,28 @@ public class Awtron {
         ArrayList<int[]> jugadasA = new ArrayList<int[]>();
         ArrayList<int[]> jugadasC = new ArrayList<int[]>();
         jugadasA = getJugadas(table);
-        int op = (int)(Math.random() * jugadasA.size());
-        
-        int alfa, beta;
-        int value = INF_P;
+        int valueA = INF_N, valueC = INF_P, jugS = 0;
         int[] sgtJug;
-
-        //rama inicial
-        int[] jI = jugadasA.get(op);
-        table[jI[0]][jI[1]] = sig;
-
-        jugadasC = getJugadas(table);
-        for(int[] pC : jugadasC) {
-            table[pC[0]][pC[1]] = this.sig == 'x' ? 'o' : 'x';
-            value = Math.min(value, fun_val(table));
-            table[pC[0]][pC[1]] = 0;
-        }
-        alfa = value;
-        sgtJug = jI;
-        table[jI[0]][jI[1]] = 0;
-        //rama inicial
-
-        for(int i= 0; i<jugadasA.size(); i++) {
+        for (int i = 0; i < jugadasA.size(); i++) {
             int[] jug = jugadasA.get(i);
-            if(i != op ) {
-                table[jug[0]][jug[1]] = this.sig;
-                jugadasC = getJugadas(table);
-                int[] jE = jugadasC.get((int)(Math.random() * jugadasC.size()));
+            table[jug[0]][jug[1]] = this.sig;
+            jugadasC = getJugadas(table);
+            for (int[] jE : jugadasC) {
                 table[jE[0]][jE[1]] = this.sig == 'x' ? 'o' : 'x';
-                beta = fun_val(table);
-                if(beta > alfa) {
-                    alfa = beta;
-                    sgtJug = jugadasA.get(i);
-                }
+                valueC = Math.min(fun_val(table), valueC);
                 table[jE[0]][jE[1]] = 0;
-                table[jug[0]][jug[1]] = 0;
             }
-        }
 
-        //jugar
+            if (valueC > valueA) {
+                jugS = i;
+                valueA = valueC;
+            }
+            valueC = INF_P;
+            table[jug[0]][jug[1]] = 0;
+        }
+        sgtJug = jugadasA.get(jugS);
+
+        // jugar
         table[sgtJug[0]][sgtJug[1]] = this.sig;
     }
 
@@ -85,62 +68,59 @@ public class Awtron {
 
     private int cantJugGan(char table[][], char c) {
         int cant = 0;
-        //filas
-        if(valid(table, 0, 0, c) && valid(table, 0, 1, c) && valid(table,0,2,c)) cant++;
-        if(valid(table, 1, 0, c) && valid(table, 1, 1, c) && valid(table,1,2,c)) cant++;
-        if(valid(table, 2, 0, c) && valid(table, 2, 1, c) && valid(table,2,2,c)) cant++;
+        // filas
+        if (valid(table, 0, 0, c) && valid(table, 0, 1, c) && valid(table, 0, 2, c))
+            cant++;
+        if (valid(table, 1, 0, c) && valid(table, 1, 1, c) && valid(table, 1, 2, c))
+            cant++;
+        if (valid(table, 2, 0, c) && valid(table, 2, 1, c) && valid(table, 2, 2, c))
+            cant++;
 
-        //diagonales
-        if(valid(table, 0, 0, c) && valid(table, 1, 1, c) && valid(table,2,2,c)) cant++;
-        if(valid(table, 0, 2, c) && valid(table, 1, 1, c) && valid(table,2,0,c)) cant++;
-        
-        //columnas
-        if(valid(table, 0, 0, c) && valid(table, 1, 0, c) && valid(table,2,0,c)) cant++;
-        if(valid(table, 0, 1, c) && valid(table, 1, 1, c) && valid(table,2,1,c)) cant++;
-        if(valid(table, 0, 2, c) && valid(table, 1, 2, c) && valid(table,2,2,c)) cant++;
+        // diagonales
+        if (valid(table, 0, 0, c) && valid(table, 1, 1, c) && valid(table, 2, 2, c))
+            cant++;
+        if (valid(table, 0, 2, c) && valid(table, 1, 1, c) && valid(table, 2, 0, c))
+            cant++;
 
-        if(winner(table, c)) {
+        // columnas
+        if (valid(table, 0, 0, c) && valid(table, 1, 0, c) && valid(table, 2, 0, c))
+            cant++;
+        if (valid(table, 0, 1, c) && valid(table, 1, 1, c) && valid(table, 2, 1, c))
+            cant++;
+        if (valid(table, 0, 2, c) && valid(table, 1, 2, c) && valid(table, 2, 2, c))
+            cant++;
+
+        if (winner(table, c)) {
             return c == this.sig ? INF_P : INF_N;
         }
         return cant;
     }
 
     private boolean winner(char table[][], char c) {
-        int r = 0;
-        for(int i=0; i<3; i++) {
-            for(int j=0; j<3; j++ ) {
-                if(table[i][j] == c) r++;
+        int total = 3 * c;
+        int filas, columnas, dig1, dig2;
+        filas = columnas = dig1 = dig2 = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                filas += table[i][j];
+                columnas += table[j][i];
             }
-            if(r == 3) return true;
-            r = 0;
         }
 
-        for(int i=0; i<3; i++) {
-            for(int j=0; j<3; j++ ) {
-                if(table[j][i] == c) r++;
-            }
-            if(r == 3) return true;
-            r = 0;
+        for (int i = 0; i < 3; i++) {
+            dig1 += table[i][i];
+            dig2 += table[i][3 - i - 1];
         }
-
-        for(int i=0; i<3; i++) {
-            if(table[i][i] == c) r++;
-        }
-        if(r == 3) return true;
-        r = 0;
-        if(table[0][2] == c) r++;
-        if(table[1][1] == c) r++;
-        if(table[2][0] == c) r++;
-        return r == 3;
+        return filas == total || columnas == total || dig1 == total || dig2 == total;
     }
 
     private ArrayList<int[]> getJugadas(char table[][]) {
         ArrayList<int[]> res = new ArrayList<int[]>();
-        for(int i=0; i<3; i++) {
-            for(int j=0; j<3; j++) {
-                if(table[i][j] == 0) {
-                    int[] r = {i, j};
-                    res.add(r);           
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (table[i][j] == 0) {
+                    int[] r = { i, j };
+                    res.add(r);
                 }
             }
         }

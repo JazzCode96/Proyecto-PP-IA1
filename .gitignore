@@ -1,4 +1,4 @@
 #pdfs
-*.pdf
+**.pdf
 
-*.class
+**.class
